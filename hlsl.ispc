@@ -551,3 +551,156 @@ inline int  trunc(float   f) { return (int)floor(f); }
 inline int2 trunc(float2& f) { int2 r = { trunc(f.x), trunc(f.y) }; return r; }
 inline int3 trunc(float3& f) { int3 r = { trunc(f.x), trunc(f.y), trunc(f.z) }; return r; }
 inline int4 trunc(float4& f) { int4 r = { trunc(f.x), trunc(f.y), trunc(f.z), trunc(f.w) }; return r; }
+
+//-------------------------------------------------------------------------------------------------
+// TEXTURES, SAMPLERS, et Al.
+//-------------------------------------------------------------------------------------------------
+
+// Texture
+typedef enum TEXTURE_FILTER
+{
+    TEXTURE_FILTER_MIN_MAG_MIP_POINT = 0,
+    //FILTER_MIN_MAG_POINT_MIP_LINEAR = 0x1,
+    //FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT = 0x4,
+    //FILTER_MIN_POINT_MAG_MIP_LINEAR = 0x5,
+    //FILTER_MIN_LINEAR_MAG_MIP_POINT = 0x10,
+    //FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR = 0x11,
+    //FILTER_MIN_MAG_LINEAR_MIP_POINT = 0x14,
+    //FILTER_MIN_MAG_MIP_LINEAR = 0x15,
+    //FILTER_ANISOTROPIC = 0x55,
+    //FILTER_COMPARISON_MIN_MAG_MIP_POINT = 0x80,
+    //FILTER_COMPARISON_MIN_MAG_POINT_MIP_LINEAR = 0x81,
+    //FILTER_COMPARISON_MIN_POINT_MAG_LINEAR_MIP_POINT = 0x84,
+    //FILTER_COMPARISON_MIN_POINT_MAG_MIP_LINEAR = 0x85,
+    //FILTER_COMPARISON_MIN_LINEAR_MAG_MIP_POINT = 0x90,
+    //FILTER_COMPARISON_MIN_LINEAR_MAG_POINT_MIP_LINEAR = 0x91,
+    //FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT = 0x94,
+    //FILTER_COMPARISON_MIN_MAG_MIP_LINEAR = 0x95,
+    //FILTER_COMPARISON_ANISOTROPIC = 0xd5,
+    //FILTER_MINIMUM_MIN_MAG_MIP_POINT = 0x100,
+    //FILTER_MINIMUM_MIN_MAG_POINT_MIP_LINEAR = 0x101,
+    //FILTER_MINIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT = 0x104,
+    //FILTER_MINIMUM_MIN_POINT_MAG_MIP_LINEAR = 0x105,
+    //FILTER_MINIMUM_MIN_LINEAR_MAG_MIP_POINT = 0x110,
+    //FILTER_MINIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR = 0x111,
+    //FILTER_MINIMUM_MIN_MAG_LINEAR_MIP_POINT = 0x114,
+    //FILTER_MINIMUM_MIN_MAG_MIP_LINEAR = 0x115,
+    //FILTER_MINIMUM_ANISOTROPIC = 0x155,
+    //FILTER_MAXIMUM_MIN_MAG_MIP_POINT = 0x180,
+    //FILTER_MAXIMUM_MIN_MAG_POINT_MIP_LINEAR = 0x181,
+    //FILTER_MAXIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT = 0x184,
+    //FILTER_MAXIMUM_MIN_POINT_MAG_MIP_LINEAR = 0x185,
+    //FILTER_MAXIMUM_MIN_LINEAR_MAG_MIP_POINT = 0x190,
+    //FILTER_MAXIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR = 0x191,
+    //FILTER_MAXIMUM_MIN_MAG_LINEAR_MIP_POINT = 0x194,
+    //FILTER_MAXIMUM_MIN_MAG_MIP_LINEAR = 0x195,
+    //FILTER_MAXIMUM_ANISOTROPIC = 0x1d5
+};
+
+typedef enum TEXTURE_ADDRESS_MODE 
+{
+    TEXTURE_ADDRESS_WRAP = 1,
+    TEXTURE_ADDRESS_MIRROR = 2,
+    TEXTURE_ADDRESS_CLAMP = 3,
+    TEXTURE_ADDRESS_BORDER = 4,
+};
+
+
+struct SamplerState
+{
+    TEXTURE_FILTER       filter;
+    TEXTURE_ADDRESS_MODE addressU;
+    TEXTURE_ADDRESS_MODE addressV;
+    float4               borderColor;
+    //TEXTURE_ADDRESS_MODE      addressW;
+    //FLOAT                      MipLODBias;
+    //UINT                       MaxAnisotropy;
+    //D3D11_COMPARISON_FUNC      ComparisonFunc;
+    //FLOAT                      MinLOD;
+    //FLOAT                      MaxLOD;
+};
+
+
+struct Texture2D
+{
+    int width;
+    int height;
+    int numComponents;
+
+    float* pData;
+};
+
+
+float4 SampleTexture2D(const Texture2D* pTexture, const SamplerState& sampler, const float2 uv)
+{
+    float u = uv.x;
+    float v = uv.y;
+
+    //--------------------------------------------------
+    // U
+    //--------------------------------------------------
+
+    // Wrap
+    if (sampler.addressU == TEXTURE_ADDRESS_WRAP)
+    {
+        u = fmod(u, 1.0f);
+    }
+    // Clamp
+    else if (sampler.addressU == TEXTURE_ADDRESS_CLAMP)
+    {
+        u = clamp(u, 0.0f, 1.0f);
+    }
+    // Mirror
+    else if (sampler.addressU == TEXTURE_ADDRESS_MIRROR)
+    {
+        if (trunc(u) % 2)
+            u = frac(u);
+        else
+            u = 1.0f - frac(u);
+    }
+    // Border
+    else if (sampler.addressU == TEXTURE_ADDRESS_BORDER)
+    {
+        if (u > 1.0f || u < 0.0f)
+            return sampler.borderColor;
+    }
+
+    //--------------------------------------------------
+    // V
+    //--------------------------------------------------
+
+    // Wrap
+    if (sampler.addressV == TEXTURE_ADDRESS_WRAP)
+    {
+        v = fmod(v, 1.0f);
+    }
+    // Clamp
+    else if (sampler.addressV == TEXTURE_ADDRESS_CLAMP)
+    {
+        v = clamp(v, 0.0f, 1.0f);
+    }
+    // Mirror
+    else if (sampler.addressV == TEXTURE_ADDRESS_MIRROR)
+    {
+        if (trunc(v) % 2)
+            v = frac(v);
+        else
+            v = 1.0f - frac(v);
+    }
+    // Border
+    else if (sampler.addressV == TEXTURE_ADDRESS_BORDER)
+    {
+        if (v > 1.0f || v < 0.0f)
+            return sampler.borderColor;
+    }
+
+    u *= (pTexture->width - 1);
+    v *= (pTexture->height - 1);
+
+    int index = pTexture->numComponents * (trunc(v) * pTexture->width + trunc(u));
+
+    return float4(pTexture->pData[index + 0],
+                  pTexture->pData[index + 1],
+                  pTexture->pData[index + 2],
+                  pTexture->pData[index + 3]);
+}

@@ -18,8 +18,6 @@ This implementation is part of a series of shaders that have been converted from
 # Running
 To run the sample, simply execute the provided binary. You can also recompile it via _hlsl-to-ispc.sln_.
 
-In the event where you want to recompile, add this sample to the <i>examples</i> folder to the [ISPC codebase](https://github.com/ispc/ispc). If you don't feel like recompiling ISPC as well, you can also use the [pre-compiled ISPC binaries with the VS2015 solution](https://ispc.github.io/downloads.html) and again drop this sample in the <i>examples</i> folder.
-
 # References
 [1] Quilez, Inigo. _Deform - Flower_. Shadertoy. [https://www.shadertoy.com/view/4dX3Rn](https://www.shadertoy.com/view/4dX3Rn) 
 

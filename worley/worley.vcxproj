@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CB6050BB-B43A-48E0-99A3-635743302BC7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>worley</RootNamespace>
+    <ISPC_file>worley</ISPC_file>
+    <default_targets>sse2,sse4,avx1-x2</default_targets>
+  </PropertyGroup>
+  <Import Project="..\common.props" />
+  <ItemGroup>
+    <ClCompile Include="worley.cpp" />
+    <ClCompile Include="worley_serial.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\hlsl.ispc" />
+  </ItemGroup>
+</Project>

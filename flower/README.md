@@ -1,4 +1,4 @@
-# ispc-flower
+# flower
 This repository contains an [ISPC](https://ispc.github.io/index.html) implementation of the <i>Deform - Flower</i> shadertoy from [Inigo Quilez](https://www.shadertoy.com/view/4dX3Rn). [1]
 
 <img src="https://github.com/zigguratvertigo/hlsl-to-ispc/blob/master/flower/Results/flower-ispc.png?raw=true">

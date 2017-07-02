@@ -1,4 +1,4 @@
-# ispc-smallpt
+# smallpt
 This folder contains an [ISPC](https://ispc.github.io/index.html) implementation of Kevin Beason's [smallpt](http://www.kevinbeason.com/smallpt/). [1]
 
 <img src="https://github.com/zigguratvertigo/hlsl-to-ispc/blob/master/smallpt/Results/smallpt-ispc.png?raw=true">

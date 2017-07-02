@@ -5,20 +5,20 @@ This library is used by several projects listed below:
 
 <table style="width:100%">
   <tr>
-    <th><a href="https://github.com/zigguratvertigo/ispc-smallpt">ispc-smallpt</a></th>
-    <th><a href="https://github.com/zigguratvertigo/ispc-mandelbrot">ispc-mandelbrot</a></th> 
+    <th><a href="https://github.com/zigguratvertigo/hlsl-to-ispc/tree/master/smallpt">smallpt</a></th>
+    <th><a href="https://github.com/zigguratvertigo/hlsl-to-ispc/tree/master/mandelbrot">mandelbrot</a></th> 
   </tr>
   <tr>
-    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/ispc-smallpt/master/Results/smallpt-ispc.png"></td>
-    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/ispc-mandelbrot/master/Results/mandelbrotDistance-ispc-10s.png"></td>
+    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/hlsl-to-ispc/master/smallpt/Results/smallpt-ispc.png"></td>
+    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/hlsl-to-ispc/master/mandelbrot/Results/mandelbrotDistance-ispc-10s.png"></td>
   </tr>
   <tr>
-    <th><a href="https://github.com/zigguratvertigo/ispc-flower">ispc-flower</a></th>
-    <th><a href="https://github.com/zigguratvertigo/ispc-worley">ispc-worley</a></th> 
+    <th><a href="https://github.com/zigguratvertigo/hlsl-to-ispc/tree/master/flower">flower</a></th>
+    <th><a href="https://github.com/zigguratvertigo/hlsl-to-ispc/tree/master/worley">worley</a></th> 
   </tr>
   <tr>
-    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/ispc-flower/master/Results/flower-ispc.png"></td>
-    <td><img width=512 src="https://github.com/zigguratvertigo/ispc-worley/blob/master/worley-ispc-logo.png?raw=true"></td> 
+    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/hlsl-to-ispc/master/flower/Results/flower-ispc.png"></td>
+    <td><img width=512 src="https://raw.githubusercontent.com/zigguratvertigo/hlsl-to-ispc/master/worley/Results/worley-ispc-logo.png"></td> 
   </tr>
 </table>
 
@@ -26,6 +26,7 @@ This library is used by several projects listed below:
 - Vectors: float2/3/4, int2/3/4, bool2/3/4
 - Matrices: float2x2/3x3/4x4
 - HLSL [Intrinsics](https://msdn.microsoft.com/en-us/library/windows/desktop/ff471376(v=vs.85).aspx)
+- (Basic) Texture2D sampling & addressing modes
 
 # Usage
 #include "hlsl.ispc" in your ISPC project files.

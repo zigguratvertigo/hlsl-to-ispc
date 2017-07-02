@@ -29,7 +29,7 @@ This library is used by several projects listed below:
 - (Basic) Texture2D sampling & addressing modes
 
 # Usage
-#include "hlsl.ispc" in your ISPC project files.
+#include "hlsl.ispc" in your ISPC project files. You can also recompile all the projects via _hlsl-to-ispc.sln_.
 
 # HLSL vs ISPC?
 Since HLSL & GPU programming shares similar SPMD concepts as ISPC, it makes sense that a library could provide similar behaviour.

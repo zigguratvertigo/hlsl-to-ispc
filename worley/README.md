@@ -1,13 +1,13 @@
-# ispc-worley
+# worley
 This repository contains an [ISPC](https://ispc.github.io/index.html) implementation of <i>Worley Noise</i> [1], also known as cellular noise.
 
-<img src="https://github.com/zigguratvertigo/ispc-worley/blob/master/worley.png" width=768 height=768>
+<img src="https://github.com/zigguratvertigo/hlsl-to-ispc/blob/master/worley/Results/worley.png" width=768 height=768>
 
 Based on a set of irregular (or random) points, the distance to the closest point is approximated. [2]
 
 When multiple octaves are combined, cellular-like behaviour is produced:
 
-<img src="https://github.com/zigguratvertigo/ispc-worley/blob/master/worley-ispc.png" width=768 height=768>
+<img src="https://github.com/zigguratvertigo/hlsl-to-ispc/blob/master/worley/Results/worley-ispc.png" width=768 height=768>
 
 A serial implementation is also provided, for comparison.
 
@@ -24,7 +24,7 @@ Overall, an 8.28x speedup from ISPC.
 Additional optimizations are most likely possible, as this is a simple 1:1 conversion to ISPC. Performance will be revisited in the near future. For example, workload splitting can also be tweaked without changing the code (with --workloads=#). Finding the right number here can definitely change the performance metrics for the better.
 
 # Running
-To run the sample, simply execute the provided binary. 
+To run the sample, simply execute the provided binary. You can also recompile it via _hlsl-to-ispc.sln_.
 
 In the event where you want to recompile, add this sample to the <i>examples</i> folder to the [ISPC codebase](https://github.com/ispc/ispc). If you don't feel like recompiling ISPC as well, you can also use the [pre-compiled ISPC binaries with the VS2015 solution](https://ispc.github.io/downloads.html) and again drop this sample in the <i>examples</i> folder.
 

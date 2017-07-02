@@ -26,8 +26,6 @@ Additional optimizations are most likely possible, as this is a simple 1:1 conve
 # Running
 To run the sample, simply execute the provided binary. You can also recompile it via _hlsl-to-ispc.sln_.
 
-In the event where you want to recompile, add this sample to the <i>examples</i> folder to the [ISPC codebase](https://github.com/ispc/ispc). If you don't feel like recompiling ISPC as well, you can also use the [pre-compiled ISPC binaries with the VS2015 solution](https://ispc.github.io/downloads.html) and again drop this sample in the <i>examples</i> folder.
-
 # References
 [1] Worley, Steven. "A Cellular Texture Basis Function", SIGGRAPH 1996, [Available Online](http://www.rhythmiccanvas.com/research/papers/worley.pdf) 
 

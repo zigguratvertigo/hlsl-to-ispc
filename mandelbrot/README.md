@@ -1,4 +1,4 @@
-# ispc-mandelbrot
+# mandelbrot
 This repository contains an [ISPC](https://ispc.github.io/index.html) implementation of the <i>Mandelbrot</i> set fractal [1], based on [Inigo Quilez's distance estimation](https://www.shadertoy.com/view/lsX3W4) [2]. 
 
 <img src="https://github.com/zigguratvertigo/hlsl-to-ispc/blob/master/mandelbrot/Results/mandelbrotDistance-ispc.png?raw=true">

@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
     for (unsigned int i = 0; i < test_iterations[0]; ++i)
     {
         reset_and_start_timer();
-        noise_ispc(x0, y0, x1, y1, width, height, buf);
+        ispcMain(x0, y0, x1, y1, width, height, buf);
         double dt = get_elapsed_mcycles();
         printf("@time of ISPC run:\t\t\t[%.3f] million cycles\n", dt);
         minISPC = std::min(minISPC, dt);

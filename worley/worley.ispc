@@ -72,7 +72,16 @@ float fworley(float x, float y)
     return sqrt(sqrt(sqrt(a) * sqrt(sqrt(b))));
 }
 
-export void noise_ispc(uniform float x0, uniform float y0, uniform float x1,
+float4 worley(float2 uv)
+{
+    // Calculate an intensity
+    float t = fworley(uv.x / 1500.0f, uv.y / 1500.0f);
+    float s = saturate(attenuate(worley(uv.x / 1000.0f, uv.y / 1000.0f)));
+
+    return float4(0.0f, 0.9f * t * t * s, 0.65f * t * s, 1.0f);
+}
+
+export void ispcMain(uniform float x0, uniform float y0, uniform float x1,
     uniform float y1, uniform int width, uniform int height,
     uniform float output[])
 {
@@ -92,15 +101,12 @@ export void noise_ispc(uniform float x0, uniform float y0, uniform float x1,
             x = (x * nx + 0.5f) * width;
             y = (y * ny + 0.5f) * height;
 
-            // Calculate an intensity
-            float t = fworley(x / 1500.0f, y / 1500.0f);
-            float s = saturate(attenuate(worley(x / 1000.0f, y / 1000.0f)));
+            float4 c = worley(float2(x, y));
 
             int index = 3 * (j * width + i + programIndex);
-
-            output[index + 0] = 0.0f;
-            output[index + 1] = 0.9f * t * t * s;
-            output[index + 2] = 0.65f * t * s;
+            output[index + 0] = c.x;
+            output[index + 1] = c.y;
+            output[index + 2] = c.z;
         }
     }
 }

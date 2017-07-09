@@ -28,7 +28,43 @@
 // Pretty much out of the box converted the GLSL code to my HLSL-like frontend (https://github.com/zigguratvertigo/ispc-hlsl),
 // which then gets compiled through ISPC.
 
-export void noise_ispc(uniform float x0, uniform float y0, uniform float x1,
+float4 mandelbrot(float2 uv, uniform float iGlobalTime)
+{
+    // animation	
+    float tz = 0.5 - 0.5*cos(0.225*iGlobalTime);
+    float zoo = pow(0.5, 13.0*tz);
+    float2 c = Float2(-0.05, .6805) + uv*zoo;
+
+    // iterate
+    float di = 1.0;
+    float2 z = Float2(0.0);
+    float m2 = 0.0;
+    float2 dz = Float2(0.0);
+    for (int k = 0; k < 300; k++)
+    {
+        if (m2 > 1024.0) { di = 0.0; break; }
+
+        // Z' -> 2·Z·Z' + 1
+        dz = 2.0*Float2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x) + Float2(1.0, 0.0);
+
+        // Z -> Z² + c			
+        z = Float2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
+
+        m2 = dot(z, z);
+    }
+
+    // distance	
+    // d(c) = |Z|·log|Z|/|Z'|
+    float d = 0.5*sqrt(dot(z, z) / dot(dz, dz))*log(dot(z, z));
+    if (di > 0.5) d = 0.0;
+
+    // do some soft coloring based on distance
+    d = clamp(pow(4.0*d / zoo, 0.2), 0.0, 1.0);
+
+    return Float4(d);
+}
+
+export void ispcMain(uniform float x0, uniform float y0, uniform float x1,
     uniform float y1, uniform int width, uniform int height,
     uniform float output[])
 {
@@ -51,44 +87,16 @@ export void noise_ispc(uniform float x0, uniform float y0, uniform float x1,
             x = (x * nx + 0.5f);
             y = 1.0f - (y * ny + 0.5f);
 
+            // -1 to 1 remap
             float2 p = -1.0f + 2.0f * Float2(x, y);
             p.x *= (float)width / (float)height;
 
-            // animation	
-            float tz = 0.5 - 0.5*cos(0.225*iGlobalTime);
-            float zoo = pow(0.5, 13.0*tz);
-            float2 c = Float2(-0.05, .6805) + p*zoo;
-
-            // iterate
-            float di = 1.0;
-            float2 z = Float2(0.0);
-            float m2 = 0.0;
-            float2 dz = Float2(0.0);
-            for (int k = 0; k < 300; k++)
-            {
-                if (m2 > 1024.0) { di = 0.0; break; }
-
-                // Z' -> 2·Z·Z' + 1
-                dz = 2.0*Float2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x) + Float2(1.0, 0.0);
-
-                // Z -> Z² + c			
-                z = Float2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
-
-                m2 = dot(z, z);
-            }
-
-            // distance	
-            // d(c) = |Z|·log|Z|/|Z'|
-            float d = 0.5*sqrt(dot(z, z) / dot(dz, dz))*log(dot(z, z));
-            if (di > 0.5) d = 0.0;
-
-            // do some soft coloring based on distance
-            d = clamp(pow(4.0*d / zoo, 0.2), 0.0, 1.0);
+            float4 c = mandelbrot(p, iGlobalTime);
 
             int index = 3 * (j * width + i + programIndex);
-            output[index + 0] = d;
-            output[index + 1] = d;
-            output[index + 2] = d;
+            output[index + 0] = c.x;
+            output[index + 1] = c.y;
+            output[index + 2] = c.z;
         }
     }
 }

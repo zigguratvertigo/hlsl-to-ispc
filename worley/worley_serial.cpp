@@ -65,7 +65,7 @@ static float worley(float x, float y)
 
 float attenuate(float x)
 {
-    return 3.0f*expf(-4.0f*fabs(2.5f*x - 1.0f));
+    return 3.0f*expf(-4.0f*fabsf(2.5f*x - 1.0f));
 }
 
 float fworley(float x, float y)
